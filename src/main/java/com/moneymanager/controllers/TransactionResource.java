@@ -1,4 +1,4 @@
-package com.moneymanager.resources;
+package com.moneymanager.controllers;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.moneymanager.domain.Transaction;
+import com.moneymanager.models.Transaction;
 import com.moneymanager.services.TransactionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +28,10 @@ public class TransactionResource {
   @Autowired
   TransactionService transactionService;
 
+  // @Route    GET /api/categories/{categoryId}/transactions
+  // @Desc     Get all transactions with Tx ID
+  // @Access   Private
+
   @GetMapping("")
   public ResponseEntity<List<Transaction>> getAllTransactions(HttpServletRequest request,
       @PathVariable("categoryId") Integer categoryId) {
@@ -35,6 +39,10 @@ public class TransactionResource {
     List<Transaction> transactions = transactionService.fetchAllTransactions(userId, categoryId);
     return new ResponseEntity<>(transactions, HttpStatus.OK);
   }
+
+  // @Route    GET /api/categories/{categoryId}/transactions/{transactionId}
+  // @Desc     Get Transaction with with Tx ID
+  // @Access   Private
 
   @GetMapping("/{transactionId}")
   public ResponseEntity<Transaction> getTransactionById(HttpServletRequest request,
@@ -44,6 +52,9 @@ public class TransactionResource {
     return new ResponseEntity<>(transaction, HttpStatus.OK);
   }
 
+  // @Route    POST /api/categories/{categoryId}/transactions
+  // @Desc     Add Transaction 
+  // @Access   Private
 
   @PostMapping()
   public ResponseEntity<Transaction> addTransaction(HttpServletRequest request,
@@ -57,6 +68,10 @@ public class TransactionResource {
     return new ResponseEntity<>(transaction, HttpStatus.CREATED);
   }
 
+  // @Route    PUT /api/categories/{categoryId}/transactions/{transactionId}
+  // @Desc     Update Transaction with with Tx ID
+  // @Access   Private
+
   @PutMapping("/{transactionId}")
   public ResponseEntity<Map<String, Boolean>> updateTransaction(HttpServletRequest request,
       @PathVariable("categoryId") Integer categoryId, @PathVariable("transactionId") Integer transactionId,
@@ -67,6 +82,10 @@ public class TransactionResource {
     map.put("success", true);
     return new ResponseEntity<>(map, HttpStatus.OK);
   }
+
+  // @Route    DELETE /api/categories/{categoryId}/transactions/{transactionId}
+  // @Desc     Delete a Transaction with with Tx ID
+  // @Access   Private
 
   @DeleteMapping("/{transactionId}")
   public ResponseEntity<Map<String, Boolean>> deleteTransaction(HttpServletRequest request,

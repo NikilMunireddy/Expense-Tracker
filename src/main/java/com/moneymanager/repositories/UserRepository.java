@@ -1,6 +1,6 @@
 package com.moneymanager.repositories;
 
-import com.moneymanager.domain.User;
+import com.moneymanager.models.User;
 import com.moneymanager.exceptions.EtAuthException;
 
 public interface UserRepository {

@@ -1,6 +1,6 @@
 package com.moneymanager.repositories;
 
-import com.moneymanager.domain.Category;
+import com.moneymanager.models.Category;
 import com.moneymanager.exceptions.EtBadRequestException;
 import com.moneymanager.exceptions.EtResourceNotFoundException;
 

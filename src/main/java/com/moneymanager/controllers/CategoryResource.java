@@ -1,4 +1,4 @@
-package com.moneymanager.resources;
+package com.moneymanager.controllers;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.moneymanager.domain.Category;
+import com.moneymanager.models.Category;
 import com.moneymanager.services.CategoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +28,21 @@ public class CategoryResource {
   @Autowired
   CategoryService categoryService;
 
+  // @Route    GET /api/categories
+  // @Desc     Get all Categories 
+  // @Access   Private
+
   @GetMapping("")
   public ResponseEntity<List<Category>> getAllCategories(HttpServletRequest request) {
     int userId = (Integer) request.getAttribute("userId");
     List<Category> categories = categoryService.fetchAllCategories(userId);
     return new ResponseEntity<>(categories, HttpStatus.OK);
   }
+
+  
+  // @Route    GET /api/categories/{categoryId}
+  // @Desc     Get all Category by category ID
+  // @Access   Private
 
   @GetMapping("/{categoryId}")
   public ResponseEntity<Category> getCategoryById(HttpServletRequest request,
@@ -42,6 +51,10 @@ public class CategoryResource {
     Category category = categoryService.fetchCategoryById(userId, categoryId);
     return new ResponseEntity<>(category, HttpStatus.OK);
   }
+
+  // @Route    POST /api/categories
+  // @Desc     Add a category 
+  // @Access   Private
 
   @PostMapping("")
   public ResponseEntity<Category> addCategory(HttpServletRequest request,
@@ -53,6 +66,10 @@ public class CategoryResource {
     return new ResponseEntity<>(category, HttpStatus.CREATED);
   }
 
+  // @Route    PUT /api/categories/{categoryId}
+  // @Desc     Update category using Category ID
+  // @Access   Private
+
   @PutMapping("/{categoryId}")
   public ResponseEntity<Map<String, Boolean>> updateCategory(HttpServletRequest request,
       @PathVariable("categoryId") Integer categoryId, @RequestBody Category category) {
@@ -62,6 +79,10 @@ public class CategoryResource {
     map.put("success", true);
     return new ResponseEntity<>(map, HttpStatus.OK);
   }
+
+  // @Route    DELETE /api/categories/{categoryId}
+  // @Desc     Delete category using Category ID
+  // @Access   Private
 
   @DeleteMapping("/{categoryId}")
   public ResponseEntity<Map<String, Boolean>> deleteCategory(HttpServletRequest request,

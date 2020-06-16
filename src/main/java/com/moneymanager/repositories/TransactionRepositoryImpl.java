@@ -5,7 +5,7 @@ import java.sql.Statement;
 import java.util.List;
 
 
-import com.moneymanager.domain.Transaction;
+import com.moneymanager.models.Transaction;
 import com.moneymanager.exceptions.EtBadRequestException;
 import com.moneymanager.exceptions.EtResourceNotFoundException;
 

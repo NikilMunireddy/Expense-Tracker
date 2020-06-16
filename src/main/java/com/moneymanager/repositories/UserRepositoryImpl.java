@@ -4,7 +4,7 @@ import java.sql.Statement;
 
 import java.sql.PreparedStatement;
 
-import com.moneymanager.domain.User;
+import com.moneymanager.models.User;
 import com.moneymanager.exceptions.EtAuthException;
 
 import org.mindrot.jbcrypt.BCrypt;

@@ -1,4 +1,4 @@
-package com.moneymanager.domain;
+package com.moneymanager.models;
 
 public class User {
   

@@ -2,7 +2,7 @@ package com.moneymanager.services;
 
 import java.util.regex.Pattern;
 
-import com.moneymanager.domain.User;
+import com.moneymanager.models.User;
 import com.moneymanager.exceptions.EtAuthException;
 import com.moneymanager.repositories.UserRepository;
 

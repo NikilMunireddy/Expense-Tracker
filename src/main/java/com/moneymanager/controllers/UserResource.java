@@ -1,7 +1,7 @@
-package com.moneymanager.resources;
+package com.moneymanager.controllers;
 
 import com.moneymanager.Constants;
-import com.moneymanager.domain.User;
+import com.moneymanager.models.User;
 import com.moneymanager.services.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -26,6 +26,10 @@ public class UserResource {
   @Autowired
   UserService userService;
 
+  // @Route    POST /api/users/login
+  // @Desc     Login user 
+  // @Access   Public
+
   @PostMapping("/login")
   public ResponseEntity<Map<String, String>> loginUser(@RequestBody Map<String, Object> userMap) {
     String email = (String) userMap.get("email");
@@ -33,6 +37,10 @@ public class UserResource {
     User user = userService.validateUser(email, password);
     return new ResponseEntity<>(generateJWTToken(user), HttpStatus.OK);
   }
+
+  // @Route    POST /api/users/register
+  // @Desc     Register new user 
+  // @Access   Public
 
   @PostMapping("/register")
   public ResponseEntity<Map<String, String>> registerUser(@RequestBody Map<String, Object> userMap) {
