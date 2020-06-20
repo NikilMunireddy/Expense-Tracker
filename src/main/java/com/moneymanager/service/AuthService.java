@@ -1,0 +1,41 @@
+package com.moneymanager.service;
+
+import java.util.regex.Pattern;
+
+import com.moneymanager.exceptions.UserAuthException;
+import com.moneymanager.model.User;
+import com.moneymanager.repository.UserRepositoryInterface;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+
+@Service
+@Transactional
+public class AuthService implements AuthServiceInterface {
+
+  @Autowired
+  UserRepositoryInterface userRepository;
+
+  @Override
+  public User validateUser(String email, String password) throws UserAuthException {
+    if(email != null) email = email.toLowerCase();
+    return userRepository.findEmailAndPassword(email, password);
+  }
+
+  @Override
+  public User registerUser(String firstName, String lastName, String email, String avatarUrl, String password,
+      String preferedCurrency) throws UserAuthException {
+        Pattern pattern = Pattern.compile("^(.+)@(.+)$");
+        if(email != null) email = email.toLowerCase();
+        if(!pattern.matcher(email).matches())
+          throw new UserAuthException("Invalid email format");
+        Integer count = userRepository.getCounterByEmail(email);
+        if(count > 0)
+          throw new UserAuthException("Email already in use");
+        String userEmail = userRepository.create(firstName, lastName, email, avatarUrl,password, preferedCurrency);
+    return userRepository.findById(userEmail);
+  }
+  
+}

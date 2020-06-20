@@ -13,12 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.moneymanager.Constants;
-
 import java.io.IOException;
 
 
-public class AuthFilter extends GenericFilterBean {
-
+public class AuthFilter extends GenericFilterBean{
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
@@ -32,7 +30,7 @@ public class AuthFilter extends GenericFilterBean {
         String token = authHeaderArr[1];
         try {
           Claims claims = Jwts.parser().setSigningKey(Constants.API_SECRET_KEY).parseClaimsJws(token).getBody();
-          httpRequest.setAttribute("userId", Integer.parseInt(claims.get("userId").toString()));
+          httpRequest.setAttribute("email", Integer.parseInt(claims.get("email").toString()));
         } catch (Exception e) {
           httpResponse.sendError(HttpStatus.FORBIDDEN.value(), "invalid/expired token");
           return;
