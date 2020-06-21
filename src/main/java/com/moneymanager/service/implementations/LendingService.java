@@ -6,39 +6,47 @@ import com.moneymanager.exceptions.LendingBadRequest;
 import com.moneymanager.exceptions.LendingResourceNotFoundException;
 import com.moneymanager.model.Lending;
 import com.moneymanager.repository.LendingRepositoryInterface;
+import com.moneymanager.service.LendingServiceInterface;
 
-public class LendingService implements LendingRepositoryInterface {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@Transactional
+public class LendingService implements LendingServiceInterface {
+
+  @Autowired
+  LendingRepositoryInterface lendingRepository;
 
   @Override
-  public List<Lending> findAll(String email) throws LendingResourceNotFoundException {
-    // TODO Auto-generated method stub
+  public List<Lending> fetchAllLendings(String email) {
+    return lendingRepository.findAll(email);
+  }
+
+  @Override
+  public List<Lending> fetchByLendingId(String email, String lendingID) throws LendingResourceNotFoundException {
+    lendingRepository.findById(email, lendingID);
     return null;
   }
 
   @Override
-  public List<Lending> findById(String email, String lendingID) throws LendingResourceNotFoundException {
-    // TODO Auto-generated method stub
+  public Lending addLending(String email, String lendingID, String title, String description, Long date, Double amount,
+      String month, Integer year) throws LendingBadRequest {
+    lendingRepository.create(email, lendingID, title, description, date, amount, month, year);
     return null;
   }
 
   @Override
-  public void create(String email, String lendingID, String title, String description, Long date, Double amount,
-      String month, Integer year) throws LendingBadRequest {
+  public void updateLending() throws LendingBadRequest {
     // TODO Auto-generated method stub
 
   }
 
   @Override
-  public void update(String email, String lendingID, String title, String description, Long date, Double amount,
-      String month, Integer year) throws LendingBadRequest {
-    // TODO Auto-generated method stub
+  public void removeLending(String email, String lendingID) throws LendingResourceNotFoundException {
+    lendingRepository.delete(email, lendingID);
 
   }
 
-  @Override
-  public void delete(String email, String lendingID) throws LendingBadRequest {
-    // TODO Auto-generated method stub
-
-  }
-  
 }

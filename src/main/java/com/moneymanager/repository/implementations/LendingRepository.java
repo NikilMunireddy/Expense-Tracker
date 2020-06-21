@@ -14,7 +14,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class LendingRepository implements LendingRepositoryInterface {
 
   private static final String SQL_CREATE = "INSERT INTO exp_tracker_lending (lending_id, title, description, email, transaction_date, amount, month, year )"+
@@ -24,7 +26,7 @@ public class LendingRepository implements LendingRepositoryInterface {
   "FROM exp_tracker_lending WHERE lending_id = ?";
   private static final String SQL_FIND_BY_EMAIL =  "SELECT lending_id, title, description, email, transaction_date, amount, month, year " +
   "FROM exp_tracker_lending WHERE email = ?";
-  private static final String SQL_DELETE_SAVING = "DELETE FROM exp_tracker_lending WHERE email = ? AND lending_id = ?";
+  private static final String SQL_DELETE_LENDING = "DELETE FROM exp_tracker_lending WHERE email = ? AND lending_id = ?";
 
   @Autowired
   JdbcTemplate jdbcTemplate;
@@ -82,7 +84,7 @@ public class LendingRepository implements LendingRepositoryInterface {
 
   @Override
   public void delete(String email, String lendingID) throws LendingBadRequest {
-    jdbcTemplate.update(SQL_DELETE_SAVING, new Object[] { email, lendingID });
+    jdbcTemplate.update(SQL_DELETE_LENDING, new Object[] { email, lendingID });
   }
   
 }
