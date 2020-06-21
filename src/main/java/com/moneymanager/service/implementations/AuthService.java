@@ -1,10 +1,11 @@
-package com.moneymanager.service;
+package com.moneymanager.service.implementations;
 
 import java.util.regex.Pattern;
 
 import com.moneymanager.exceptions.UserAuthException;
 import com.moneymanager.model.User;
 import com.moneymanager.repository.UserRepositoryInterface;
+import com.moneymanager.service.AuthServiceInterface;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

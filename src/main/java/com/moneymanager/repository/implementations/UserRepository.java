@@ -1,10 +1,11 @@
-package com.moneymanager.repository;
+package com.moneymanager.repository.implementations;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 
 import com.moneymanager.exceptions.UserAuthException;
 import com.moneymanager.model.User;
+import com.moneymanager.repository.UserRepositoryInterface;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
