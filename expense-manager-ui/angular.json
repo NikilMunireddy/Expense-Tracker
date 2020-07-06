@@ -11,9 +11,9 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
-            "outputPath": "dist/expense-manager-ui",
+            "outputPath": "dist/botika-customer",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -24,9 +24,13 @@
               "src/assets"
             ],
             "styles": [
+              "src/tailwind.scss",   
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "customWebpackConfig": {
+              "path": ""
+            }
           },
           "configurations": {
             "production": {

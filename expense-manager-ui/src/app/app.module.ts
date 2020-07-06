@@ -9,7 +9,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { ExpenseComponent } from './components/expense/expense.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthService } from './services/auth.service';
-import { AddnewdataComponent } from './components/addnewdata/addnewdata.component'
+import { AddnewdataComponent } from './components/addnewdata/addnewdata.component';
+import { LendingComponent } from './components/lending/lending.component'
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { AddnewdataComponent } from './components/addnewdata/addnewdata.componen
     NavbarComponent,
     ExpenseComponent,
     LoginComponent,
-    AddnewdataComponent
+    AddnewdataComponent,
+    LendingComponent
   ],
   imports: [
     BrowserModule,
