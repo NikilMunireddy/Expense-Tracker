@@ -129,10 +129,16 @@ html, body {
 
 .card_price .general h1 {
   text-align: left;
+  margin-left: 50px;
+  color: gray;
   font-size: x-large;
   font-family: sans-serif;
 }
 
+.card_price .general p {
+  margin-left: 50px;
+  color: gray;
+}
 .card_price .additional {
   position: absolute;
   width: 150px;
@@ -142,8 +148,6 @@ html, body {
   overflow: hidden;
   z-index: 2;
 }
-
-
 
 .card_price:hover .additional {
   width: 100%;
@@ -198,22 +202,19 @@ html, body {
 
 .card_price .additional .more-info h1 {
   color: #fff;
+  margin-left: 10px;
   margin-bottom: 0;
 }
 
-.card.green .additional .more-info h1 {
-  color: #224C36;
-}
+
 
 .card_price .additional .coords {
   margin: 0 1rem;
   color: #fff;
+  margin-left: 10px;
   font-size: 1rem;
 }
 
-.card.green .additional .coords {
-  color: #325C46;
-}
 
 .card_price .additional .coords span + span {
   float: right;

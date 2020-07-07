@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, from } from 'rxjs';
-
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -16,12 +15,13 @@ export class AuthService {
   
   constructor(private http: HttpClient) { }
 
+  serverUrl = environment.baseUrl;
 
   loginUser(email, password) {
 
       let data ={email, password}
     return     fetch(
-      'http://localhost:8081/api/users/login', // the url you are trying to access
+      `${this.serverUrl}/api/users/login`, // the url you are trying to access
       {
         headers: {
           'Content-Type': 'application/json',

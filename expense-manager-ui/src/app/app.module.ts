@@ -10,7 +10,9 @@ import { ExpenseComponent } from './components/expense/expense.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthService } from './services/auth.service';
 import { AddnewdataComponent } from './components/addnewdata/addnewdata.component';
-import { LendingComponent } from './components/lending/lending.component'
+import { LendingComponent } from './components/lending/lending.component';
+import { SavingComponent } from './components/saving/saving.component';
+import { DebtComponent } from './components/debt/debt.component'
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { LendingComponent } from './components/lending/lending.component'
     ExpenseComponent,
     LoginComponent,
     AddnewdataComponent,
-    LendingComponent
+    LendingComponent,
+    SavingComponent,
+    DebtComponent
   ],
   imports: [
     BrowserModule,

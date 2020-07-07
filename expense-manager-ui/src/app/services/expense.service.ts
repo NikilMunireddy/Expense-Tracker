@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Expense } from '../model/Expense';
-import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +11,13 @@ export class ExpenseService {
 
   constructor(private http: HttpClient) { }
 
+  serverUrl = environment.baseUrl;
+
 
   getTotalExpense(month, year) {
 
 
-    return fetch('http://localhost:8081/api/moneymanager/expense/expense-total', {
+    return fetch(this.serverUrl+'/api/moneymanager/expense/expense-total', {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
@@ -33,7 +35,7 @@ export class ExpenseService {
 
   getAllExpenses(month, year) {
 
-    return fetch(`http://localhost:8081/api/moneymanager/expense/${month}/${year}`, {
+    return fetch(`${this.serverUrl}/api/moneymanager/expense/${month}/${year}`, {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',

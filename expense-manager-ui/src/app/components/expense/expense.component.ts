@@ -36,6 +36,11 @@ export class ExpenseComponent implements OnInit {
     this.getAllExpenses(this.dateMonthMap[month], year)
   }
 
+  logout() {
+    sessionStorage.removeItem('id_token')
+    this.router.navigate(['/login'])
+  }
+
   getMonthAndYear() {
     console.log(this.monthyear)
     this.selectedMonth = Number(this.monthyear.split('-')[1])
@@ -47,21 +52,18 @@ export class ExpenseComponent implements OnInit {
   getTotalExpense(month, year) {
     this.getAllExpenses(month, year)
     this.expenseService.getTotalExpense(month, year)
-      .then(resp => resp.json())
+      .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() : this.logout())
       .then(data => {
         this.monthlyExpense = data.total
-      })
+      }).catch(err => console.log(err))
   }
 
-  getAllExpenses(month, year){
+  getAllExpenses(month, year) {
     this.expenseService.getAllExpenses(month, year)
-    .then(res => res.json())
-    .then(data => {
-      //data.map(expense => this.expenses.unshift(expense))
-      this.expenses = data;
-    })
-    .catch(err => console.log(err))
+      .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() : this.logout())
+      .then(data => {
+        this.expenses = data;
+      }).catch(err => console.log(err))
   }
-
-
+  
 }
