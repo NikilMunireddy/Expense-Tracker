@@ -21,11 +21,11 @@ public class SavingsRepository implements SavingsRepositoryInterface {
 
   private static final String SQL_CREATE = "INSERT INTO exp_tracker_savings (saving_id, title, description, email, transaction_date, amount, month, year )"+
   " VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-  private static final String SQL_COUNT_BY_EMAIL = "SELECT COUNT(*) FROM exp_tracker_savings WHERE EMAIL = ?";
+  private static final String SQL_SUM_BY_EMAIL = "select sum(amount) from exp_tracker_savings WHERE EMAIL = ? and year=? and month =?";
   private static final String SQL_FIND_BY_ID = "SELECT saving_id, title, description, email, transaction_date, amount, month, year " +
   "FROM exp_tracker_savings WHERE saving_id = ?";
   private static final String SQL_FIND_BY_EMAIL =  "SELECT saving_id, title, description, email, transaction_date, amount, month, year " +
-  "FROM exp_tracker_savings WHERE email = ?";
+  "FROM exp_tracker_savings WHERE email = ? and year=? and month =?";
   private static final String SQL_DELETE_SAVING = "DELETE FROM exp_tracker_savings WHERE email = ? AND saving_id = ?";
 
   @Autowired
@@ -43,8 +43,8 @@ public class SavingsRepository implements SavingsRepositoryInterface {
 });
   
   @Override
-  public List<Saving> findAll(String email) throws SavingsResourceNotFoundException {
-    return jdbcTemplate.query(SQL_FIND_BY_EMAIL, new Object[] { email }, savingsRowMapper);
+  public List<Saving> findAll(String email, String month, Integer year ) throws SavingsResourceNotFoundException {
+    return jdbcTemplate.query(SQL_FIND_BY_EMAIL, new Object[] { email, year, month }, savingsRowMapper);
   }
 
   @Override
@@ -85,6 +85,11 @@ public class SavingsRepository implements SavingsRepositoryInterface {
   @Override
   public void delete(String email, String savingsId) throws SavingsBadRequest {
     jdbcTemplate.update(SQL_DELETE_SAVING, new Object[] { email, savingsId });
+  }
+
+  @Override
+  public Double getTotalSaving(String email, String month, Integer year) {
+    return jdbcTemplate.queryForObject(SQL_SUM_BY_EMAIL, new Object[] { email, year, month }, Double.class);
   }
   
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AddinfoService } from '../../services/addinfo.service'
 
 @Component({
   selector: 'app-addnewdata',
@@ -7,7 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddnewdataComponent implements OnInit {
 
-  constructor() { }
+  constructor(private addinfoService: AddinfoService,
+    private router: Router) { 
+      if (!sessionStorage.getItem('id_token'))
+        this.router.navigate(['/login'])
+    }
 
   month: string;
   year: number;
@@ -38,12 +44,26 @@ export class AddnewdataComponent implements OnInit {
     console.log(this.month, this.year, this.date)
   }
 
+
+  logout() {
+    sessionStorage.removeItem('id_token')
+    this.router.navigate(['/login'])
+  }
+
   submitData() {
     if (this.selectedType != "" && this.selectedType != "Choose Type" && this.amount != undefined && this.title != "" && this.description != "") {
       if (this.selectedType == "expense") {
+        this.addinfoService.addExpense(this.title, this.description, this.date ,this.amount.toPrecision(2), this.month, this.year)
+          .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() : this.logout())
+          .then(data => console.log(data))
+          .catch(err => console.log(err))
         console.log(this.amount, this.title, this.description,this.selectedType)
       }
       else if (this.selectedType == "saving") {
+        this.addinfoService.addSaving(this.title, this.description, this.date ,this.amount.toPrecision(2), this.month, this.year)
+          .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() : this.logout())
+          .then(data => console.log(data))
+          .catch(err => console.log(err))
         console.log(this.amount, this.title, this.description,this.selectedType)
       }
       else if (this.selectedType == "debt") {

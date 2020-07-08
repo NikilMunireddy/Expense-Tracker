@@ -35,12 +35,12 @@ public class ExpenseController {
   public ResponseEntity<Map<String, Boolean>> addExpense(HttpServletRequest request,
       @RequestBody Map<String, Object> expense) {
     
-    String email = (String) expense.get("email");
+    String email = (String) request.getAttribute("email");
     String expenseID = new StringBuilder().append(Instant.now().getEpochSecond()).toString();
     String title = (String) expense.get("title");
     String description = (String) expense.get("description");
-    Long date = Long.valueOf(((Integer) expense.get("date")).longValue());
-    Double amount = (Double) expense.get("amount");
+    Long date = Instant.now().getEpochSecond();
+    Double amount = Double.parseDouble(expense.get("amount").toString());
     String month = (String) expense.get("month");
     Integer year = (Integer) expense.get("year");
 
@@ -53,8 +53,9 @@ public class ExpenseController {
   @PutMapping()
   public ResponseEntity<Map<String, Boolean>> updateExpense(HttpServletRequest request,
       @RequestBody Map<String, Object> expense){
+        
 
-    String email = (String) expense.get("email");
+    String email = (String) request.getAttribute("email");
     String expenseID = (String) expense.get("expenseID");
     String title = (String) expense.get("title");
     String description = (String) expense.get("description");

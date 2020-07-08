@@ -20,19 +20,24 @@
 .navbar {
   background: #fdfdfd;
   width: 100%;
+  background-color: #fdfdfd;
+  position: relative;
+  z-index: 3;
   display: inline-flex;
-  align-items: center;
+
   box-shadow: 0px 20px 40px rgba(18, 34, 64, 0.1);
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
-  position: absolute;
+  position: fixed;
   bottom: 0px;
 }
 .navbar:after {
   content: "";
   width: 120px;
+  background-color: #fff;
+  position: relative;
+  z-index: 3;
   background: #d9e0ea;
-  position: absolute;
   bottom: 8px;
   left: 50%;
   height: 3px;
@@ -98,12 +103,13 @@
 .navbar__item:hover .navbar__icon {
   transform: translateY(-58px) scale(1.25);
   color: #fff;
+  position: fixed;
   transition-delay: 0.1s, 0.1s;
 }
 .navbar__icon {
   transition: all 0.5s cubic-bezier(0.71, 0.03, 0.23, 0.95);
   transition-delay: 0.1s;
   display: inline-block;
-  position: relative;
+  position: fixed;
   z-index: 2;
 }

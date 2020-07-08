@@ -1,37 +1,33 @@
-<div class="">
-  <!-- Expense brief -->
-  <div class="card ">
-    <div class="card_image grad_expense">
-      <br>
-      <div class="">
-        <h1 class="fa fa-money card_icon" aria-hidden="true">
-          Expense
-        </h1>
-        <div class="card_text">
-          {{monthlyExpense}} <i class="fa fa-inr "></i>
-          <br />
-          <div style="padding-left: 40%; font-size: 2rem;"> {{selectedMonth}} 2020</div>
+<div class="fixed_card">
+  <div class="">
+    <!-- Expense brief -->
+    <div class="card ">
+      <div class="card_image grad_expense">
+        <br>
+        <div class="">
+          <h1 class="fa fa-money card_icon" aria-hidden="true">
+            Expense
+          </h1>
+          <div class="card_text">
+            {{monthlyExpense}} <i class="fa fa-inr "></i>
+            <br />
+            <div style="padding-left: 40%; font-size: 2rem;"> {{selectedMonth}} 2020</div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
-  <!--
-
-    onclick="this.classList.toggle('expanded')"
-   -->
-
+  
+  
+  <form class="mb-4" (submit)="getMonthAndYear()" >
+    <div class="mb-4 md:w-full date_picker_margin">
+      <label for="email" class="block text-xs mb-1">Choose Month and Year</label>
+        <input type="month" id="monthyear" name="monthyear"  min="2000-03" value="2020-05" [(ngModel)]="monthyear">
+        &nbsp;
+        <input type="submit" class="bg-green-500 hover:bg-green-700 text-white uppercase text-sm font-semibold px-4 py-2 rounded" value="Find">
+    </div>
+  </form>
 </div>
-
-
-
-<form class="mb-4" (submit)="getMonthAndYear()" >
-  <div class="mb-4 md:w-full">
-    <label for="email" class="block text-xs mb-1">Choose Month and Year</label>
-    <input type="month" id="monthyear" name="monthyear"  min="2000-03" value="2020-05" [(ngModel)]="monthyear">
-    <input type="submit" class="bg-green-500 hover:bg-green-700 text-white uppercase text-sm font-semibold px-4 py-2 rounded" value="Find">
-  </div>
-</form>
 
 
 
@@ -61,11 +57,12 @@
     </div>
     <div class="general">
       <h1>{{expense.title}}</h1>
-      <p>Food street </p>
+      <p>{{expense.description}} </p>
     </div>
   </div>
   <br/>
 </div>
+<br/><br/><br/>
 
 
 

@@ -20,8 +20,8 @@ public class SavingsService implements SavingsServiceInterface {
   SavingsRepositoryInterface savingsRepository;
 
   @Override
-  public List<Saving> fetchAllSavings(String email) {
-    return savingsRepository.findAll(email);
+  public List<Saving> fetchAllSavings(String email, String month, Integer year) {
+    return savingsRepository.findAll(email, month, year);
   }
 
   @Override
@@ -46,6 +46,11 @@ public class SavingsService implements SavingsServiceInterface {
   @Override
   public void removeSaving(String email, String savingsID) throws SavingsResourceNotFoundException {
     savingsRepository.delete(email, savingsID);
+  }
+
+  @Override
+  public Double getTotalSaving(String email, String month, Integer year) {
+    return savingsRepository.getTotalSaving(email, month, year);
   }
   
 }

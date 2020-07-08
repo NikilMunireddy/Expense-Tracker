@@ -286,3 +286,14 @@ html, body {
   padding: 40px;
 }
 
+.fixed_card{
+  position: relative;
+  background: #fff;
+  z-index: 4; 
+  height: 30%;
+}
+
+.date_picker_margin{
+  margin-left: 15%;
+  margin-right: 15%;
+}

@@ -33,12 +33,12 @@ public class SavingsController {
   public ResponseEntity<Map<String, Boolean>> addSaving(HttpServletRequest request,
       @RequestBody Map<String, Object> saving) {
     
-    String email = (String) saving.get("email");
+    String email = (String) request.getAttribute("email");
     String savingsID = new StringBuilder().append(Instant.now().getEpochSecond()).toString();
     String title = (String) saving.get("title");
     String description = (String) saving.get("description");
-    Long date = Long.valueOf(((Integer) saving.get("date")).longValue());
-    Double amount = (Double) saving.get("amount");
+    Long date = Instant.now().getEpochSecond();
+    Double amount = Double.parseDouble(saving.get("amount").toString());
     String month = (String) saving.get("month");
     Integer year = (Integer) saving.get("year");
     
@@ -70,19 +70,31 @@ public class SavingsController {
     return new ResponseEntity<>(map, HttpStatus.OK);
   }
 
-  @GetMapping()
-  public ResponseEntity<List<Saving>> getAllSaving(HttpServletRequest request){
+  @GetMapping("/{month}/{year}")
+  public ResponseEntity<List<Saving>> getAllSaving(HttpServletRequest request,
+  @PathVariable("month") String month, @PathVariable("year") Integer year){
     String email = (String) request.getAttribute("email");
-    List<Saving> allSavings= savingsService.fetchAllSavings(email);
+    List<Saving> allSavings= savingsService.fetchAllSavings(email, month, year);
     return new ResponseEntity<>(allSavings,HttpStatus.OK);
   }
 
   @DeleteMapping("/{savingID}")
-  public ResponseEntity<Map<String, Boolean>> deleteExpense(HttpServletRequest request, @PathVariable("savingID") String savingID){
+  public ResponseEntity<Map<String, Boolean>> deleteSaving(HttpServletRequest request, @PathVariable("savingID") String savingID){
     String email = (String) request.getAttribute("email");
     savingsService.removeSaving(email, savingID);
     Map<String, Boolean> map = new HashMap<>();
     map.put("status", true);
+    return new ResponseEntity<>(map, HttpStatus.OK);
+  }
+
+  @PostMapping("/saving-total")
+  public ResponseEntity<Map<String, Double>> getTotalSaving(HttpServletRequest request, @RequestBody Map<String, Object> saving){
+    String email = (String) request.getAttribute("email");
+    String month = (String) saving.get("month");
+    Integer year = (Integer) saving.get("year");
+    Double totalSum =savingsService.getTotalSaving(email, month, year);
+    Map<String, Double> map = new HashMap<>();
+    map.put("total", totalSum);
     return new ResponseEntity<>(map, HttpStatus.OK);
   }
 }

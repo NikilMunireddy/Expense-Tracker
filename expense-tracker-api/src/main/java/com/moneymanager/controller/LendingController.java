@@ -33,12 +33,12 @@ public class LendingController {
   public ResponseEntity<Map<String, Boolean>> addLending(HttpServletRequest request,
       @RequestBody Map<String, Object> lending) {
     
-    String email = (String) lending.get("email");
+    String email = (String) request.getAttribute("email");
     String lendingID = new StringBuilder().append(Instant.now().getEpochSecond()).toString();
     String title = (String) lending.get("title");
     String description = (String) lending.get("description");
-    Long date = Long.valueOf(((Integer) lending.get("date")).longValue());
-    Double amount = (Double) lending.get("amount");
+    Long date = Instant.now().getEpochSecond();
+    Double amount = Double.parseDouble(lending.get("amount").toString());
     String month = (String) lending.get("month");
     Integer year = (Integer) lending.get("year");
 

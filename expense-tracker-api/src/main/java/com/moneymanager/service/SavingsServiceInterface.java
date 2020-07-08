@@ -8,9 +8,11 @@ import com.moneymanager.model.Saving;
 
 public interface SavingsServiceInterface {
   
-  List<Saving> fetchAllSavings(String email);
+  List<Saving> fetchAllSavings(String email, String month, Integer year);
 
   List<Saving> fetchBySavingId(String email, String savingsID) throws SavingsResourceNotFoundException;
+
+  public Double getTotalSaving(String email, String month, Integer year);
 
   Saving addSaving(String email, String savingsID, String title,  String description, Long date, Double amount, String month, Integer year) throws SavingsBadRequest;
 

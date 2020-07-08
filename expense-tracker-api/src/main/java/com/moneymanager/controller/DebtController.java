@@ -31,16 +31,16 @@ public class DebtController {
 
   @PostMapping()
   public ResponseEntity<Map<String, Boolean>> addExpense(HttpServletRequest request,
-      @RequestBody Map<String, Object> expense) {
+      @RequestBody Map<String, Object> debt) {
     
-    String email = (String) expense.get("email");
+    String email = (String) request.getAttribute("email");
     String debtID = new StringBuilder().append(Instant.now().getEpochSecond()).toString();
-    String title = (String) expense.get("title");
-    String description = (String) expense.get("description");
-    Long date = Long.valueOf(((Integer) expense.get("date")).longValue());
-    Double amount = (Double) expense.get("amount");
-    String month = (String) expense.get("month");
-    Integer year = (Integer) expense.get("year");
+    String title = (String) debt.get("title");
+    String description = (String) debt.get("description");
+    Long date = Instant.now().getEpochSecond();
+    Double amount = Double.parseDouble(debt.get("amount").toString());
+    String month = (String) debt.get("month");
+    Integer year = (Integer) debt.get("year");
 
     debtService.addDebt(email, debtID, title, description, date, amount, month, year);
     Map<String, Boolean> map = new HashMap<>();
@@ -51,16 +51,16 @@ public class DebtController {
 
   @PutMapping()
   public ResponseEntity<Map<String, Boolean>> updateExpense(HttpServletRequest request,
-      @RequestBody Map<String, Object> expense){
+      @RequestBody Map<String, Object> debt){
 
-    String email = (String) expense.get("email");
-    String debtID = (String) expense.get("debtID");
-    String title = (String) expense.get("title");
-    String description = (String) expense.get("description");
-    Long date = Long.valueOf(((Integer) expense.get("date")).longValue());
-    Double amount = (Double) expense.get("amount");
-    String month = (String) expense.get("month");
-    Integer year = (Integer) expense.get("year");
+    String email = (String) debt.get("email");
+    String debtID = (String) debt.get("debtID");
+    String title = (String) debt.get("title");
+    String description = (String) debt.get("description");
+    Long date = Long.valueOf(((Integer) debt.get("date")).longValue());
+    Double amount = (Double) debt.get("amount");
+    String month = (String) debt.get("month");
+    Integer year = (Integer) debt.get("year");
     
     debtService.removeDebt(email, debtID);
     debtService.addDebt(email, debtID, title, description, date, amount, month, year);
@@ -86,10 +86,10 @@ public class DebtController {
   }
 
   @PostMapping("/debt-total")
-  public ResponseEntity<Map<String, Double>> getTotalExpense(HttpServletRequest request, @RequestBody Map<String, Object> expense){
+  public ResponseEntity<Map<String, Double>> getTotalExpense(HttpServletRequest request, @RequestBody Map<String, Object> debt){
     String email = (String) request.getAttribute("email");
-    String month = (String) expense.get("month");
-    Integer year = (Integer) expense.get("year");
+    String month = (String) debt.get("month");
+    Integer year = (Integer) debt.get("year");
     Double totalSum =debtService.getTotalExpense(email, month, year);
     Map<String, Double> map = new HashMap<>();
     map.put("total", totalSum);
