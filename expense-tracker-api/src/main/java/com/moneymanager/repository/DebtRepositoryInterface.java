@@ -8,7 +8,7 @@ import com.moneymanager.model.Debt;
 
 public interface DebtRepositoryInterface {
   
-  List<Debt> findAll(String email) throws DebtResourceNotFoundException;
+  List<Debt> findAll(String email, String month, Integer year) throws DebtResourceNotFoundException;
 
   List<Debt> findById(String email, String debtID) throws DebtResourceNotFoundException;
 
@@ -18,6 +18,6 @@ public interface DebtRepositoryInterface {
   
   void delete(String email, String debtID) throws DebtBadRequest;
 
-  Double getTotalExpense(String email, String month, Integer year);
+  Double getTotalDebt(String email, String month, Integer year);
 
 }

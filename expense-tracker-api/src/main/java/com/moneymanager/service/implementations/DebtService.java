@@ -20,8 +20,8 @@ public class DebtService implements DebtServiceInterface {
   DebtRepositoryInterface debtRepository;
 
   @Override
-  public List<Debt> fetchAllDebts(String email) {
-    return debtRepository.findAll(email);
+  public List<Debt> fetchAllDebts(String email, String month, Integer year) {
+    return debtRepository.findAll(email, month, year);
   }
 
   @Override
@@ -50,8 +50,8 @@ public class DebtService implements DebtServiceInterface {
   }
 
   @Override
-  public Double getTotalExpense(String email, String month, Integer year) {
-    return debtRepository.getTotalExpense(email, month, year);
+  public Double getTotalDebt(String email, String month, Integer year) {
+    return debtRepository.getTotalDebt(email, month, year);
   }
   
 }

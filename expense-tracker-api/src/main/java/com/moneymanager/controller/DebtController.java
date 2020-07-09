@@ -69,10 +69,11 @@ public class DebtController {
     return new ResponseEntity<>(map, HttpStatus.OK);
   }
 
-  @GetMapping()
-  public ResponseEntity<List<Debt>> getAllExpense(HttpServletRequest request){
+  @GetMapping("/{month}/{year}")
+  public ResponseEntity<List<Debt>> getAllExpense(HttpServletRequest request, 
+  @PathVariable("month") String month, @PathVariable("year") Integer year){
     String email = (String) request.getAttribute("email");
-    List<Debt> allExpenss= debtService.fetchAllDebts(email);
+    List<Debt> allExpenss= debtService.fetchAllDebts(email, month, year);
     return new ResponseEntity<>(allExpenss,HttpStatus.OK);
   }
 
@@ -86,11 +87,11 @@ public class DebtController {
   }
 
   @PostMapping("/debt-total")
-  public ResponseEntity<Map<String, Double>> getTotalExpense(HttpServletRequest request, @RequestBody Map<String, Object> debt){
+  public ResponseEntity<Map<String, Double>> getTotaDebts(HttpServletRequest request, @RequestBody Map<String, Object> debt){
     String email = (String) request.getAttribute("email");
     String month = (String) debt.get("month");
     Integer year = (Integer) debt.get("year");
-    Double totalSum =debtService.getTotalExpense(email, month, year);
+    Double totalSum =debtService.getTotalDebt(email, month, year);
     Map<String, Double> map = new HashMap<>();
     map.put("total", totalSum);
     return new ResponseEntity<>(map, HttpStatus.OK);

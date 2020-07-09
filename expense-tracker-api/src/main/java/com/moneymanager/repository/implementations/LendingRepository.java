@@ -25,7 +25,7 @@ public class LendingRepository implements LendingRepositoryInterface {
   private static final String SQL_FIND_BY_ID = "SELECT lending_id, title, description, email, transaction_date, amount, month, year " +
   "FROM exp_tracker_lending WHERE lending_id = ?";
   private static final String SQL_FIND_BY_EMAIL =  "SELECT lending_id, title, description, email, transaction_date, amount, month, year " +
-  "FROM exp_tracker_lending WHERE email = ?";
+  "FROM exp_tracker_lending WHERE email = ? and year=? and month =?";
   private static final String SQL_DELETE_LENDING = "DELETE FROM exp_tracker_lending WHERE email = ? AND lending_id = ?";
 
   @Autowired
@@ -43,8 +43,8 @@ public class LendingRepository implements LendingRepositoryInterface {
   });
 
   @Override
-  public List<Lending> findAll(String email) throws LendingResourceNotFoundException {
-    return jdbcTemplate.query(SQL_FIND_BY_EMAIL, new Object[] { email }, lendingRowMapper);
+  public List<Lending> findAll(String email, String month, Integer year) throws LendingResourceNotFoundException {
+    return jdbcTemplate.query(SQL_FIND_BY_EMAIL, new Object[] { email, year, month }, lendingRowMapper);
   }
 
   @Override
@@ -85,6 +85,11 @@ public class LendingRepository implements LendingRepositoryInterface {
   @Override
   public void delete(String email, String lendingID) throws LendingBadRequest {
     jdbcTemplate.update(SQL_DELETE_LENDING, new Object[] { email, lendingID });
+  }
+
+  @Override
+  public Double getTotalLending(String email, String month, Integer year) {
+    return jdbcTemplate.queryForObject(SQL_SUM_BY_EMAIL, new Object[] { email, year, month }, Double.class);
   }
   
 }

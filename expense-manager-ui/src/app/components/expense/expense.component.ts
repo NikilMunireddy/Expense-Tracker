@@ -65,5 +65,14 @@ export class ExpenseComponent implements OnInit {
         this.expenses = data;
       }).catch(err => console.log(err))
   }
+
+  deleterequest(id){
+    if(confirm("Do you want to delete")){
+      this.expenseService.deleteExpense(id)
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(err => console.log(err))
+    }
+  }
   
 }

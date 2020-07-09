@@ -7,7 +7,7 @@ import com.moneymanager.exceptions.DebtResourceNotFoundException;
 import com.moneymanager.model.Debt;
 
 public interface DebtServiceInterface {
-  List<Debt> fetchAllDebts(String email);
+  List<Debt> fetchAllDebts(String email, String month, Integer year);
 
   List<Debt> fetchByDebtId(String email, String debtID) throws DebtResourceNotFoundException;
 
@@ -17,6 +17,6 @@ public interface DebtServiceInterface {
 
   void removeDebt(String email, String debtID) throws DebtResourceNotFoundException;
 
-  Double getTotalExpense(String email, String month, Integer year);
+  Double getTotalDebt(String email, String month, Integer year);
 
 }

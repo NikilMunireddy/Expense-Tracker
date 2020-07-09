@@ -297,3 +297,7 @@ html, body {
   margin-left: 15%;
   margin-right: 15%;
 }
+
+.delete_icon{
+  padding-right: 5%;
+}

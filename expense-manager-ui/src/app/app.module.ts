@@ -12,7 +12,9 @@ import { AuthService } from './services/auth.service';
 import { AddnewdataComponent } from './components/addnewdata/addnewdata.component';
 import { LendingComponent } from './components/lending/lending.component';
 import { SavingComponent } from './components/saving/saving.component';
-import { DebtComponent } from './components/debt/debt.component'
+import { DebtComponent } from './components/debt/debt.component';
+import { LongPress } from './long-press';
+
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { DebtComponent } from './components/debt/debt.component'
     AddnewdataComponent,
     LendingComponent,
     SavingComponent,
-    DebtComponent
+    DebtComponent,
+    LongPress
   ],
   imports: [
     BrowserModule,

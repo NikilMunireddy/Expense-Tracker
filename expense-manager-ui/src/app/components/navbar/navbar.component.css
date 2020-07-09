@@ -94,13 +94,13 @@
 .navbar__item:hover::before, .navbar__item:hover::after {
   transform: translateY(-60px) scale(1.1);
 }
-.navbar__item:hover::before {
+.navbar__item:hover::before { 
   opacity: 1;
 }
 .navbar__item:hover::after {
   opacity: 0.4;
 }
-.navbar__item:hover .navbar__icon {
+.navbar__item:active .navbar__icon {
   transform: translateY(-58px) scale(1.25);
   color: #fff;
   position: fixed;

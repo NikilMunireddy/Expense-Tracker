@@ -20,8 +20,8 @@ public class LendingService implements LendingServiceInterface {
   LendingRepositoryInterface lendingRepository;
 
   @Override
-  public List<Lending> fetchAllLendings(String email) {
-    return lendingRepository.findAll(email);
+  public List<Lending> fetchAllLendings(String email, String month, Integer year) {
+    return lendingRepository.findAll(email, month, year);
   }
 
   @Override
@@ -47,6 +47,11 @@ public class LendingService implements LendingServiceInterface {
   public void removeLending(String email, String lendingID) throws LendingResourceNotFoundException {
     lendingRepository.delete(email, lendingID);
 
+  }
+
+  @Override
+  public Double getTotalLending(String email, String month, Integer year) {
+    return lendingRepository.getTotalLending(email, month, year);
   }
 
 }

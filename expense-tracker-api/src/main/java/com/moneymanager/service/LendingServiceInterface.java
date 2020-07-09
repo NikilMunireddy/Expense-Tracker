@@ -8,7 +8,7 @@ import com.moneymanager.model.Lending;
 
 public interface LendingServiceInterface {
   
-  List<Lending> fetchAllLendings(String email);
+  List<Lending> fetchAllLendings(String email, String month, Integer year);
 
   List<Lending> fetchByLendingId(String email, String lendingID) throws LendingResourceNotFoundException;
 
@@ -17,5 +17,7 @@ public interface LendingServiceInterface {
   void updateLending() throws LendingBadRequest;
 
   void removeLending(String email, String lendingID) throws LendingResourceNotFoundException;
+
+  Double getTotalLending(String email, String month, Integer year);
 
 }

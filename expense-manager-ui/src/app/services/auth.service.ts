@@ -34,7 +34,6 @@ export class AuthService {
 
   storeUserData(token) {
     sessionStorage.setItem('id_token', token);
-    //localStorage.setItem('user', JSON.stringify(user));
     this.authToken = token;
   }
 }

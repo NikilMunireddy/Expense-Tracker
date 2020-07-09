@@ -25,7 +25,7 @@ public class DebtRepository implements DebtRepositoryInterface {
   private static final String SQL_FIND_BY_ID = "SELECT debt_id, title, description, email, transaction_date, amount, month, year " +
   "FROM exp_tracker_debts WHERE debt_id = ?";
   private static final String SQL_FIND_BY_EMAIL =  "SELECT debt_id, title, description, email, transaction_date, amount, month, year " +
-  "FROM exp_tracker_debts WHERE email = ?";
+  "FROM exp_tracker_debts WHERE email = ? and year=? and month =?";
   private static final String SQL_DELETE_DEBT = "DELETE FROM exp_tracker_debts WHERE email = ? AND debt_id = ?";
 
   @Autowired
@@ -43,8 +43,8 @@ public class DebtRepository implements DebtRepositoryInterface {
     });
 
   @Override
-  public List<Debt> findAll(String email) throws DebtResourceNotFoundException {
-    return jdbcTemplate.query(SQL_FIND_BY_EMAIL, new Object[] { email }, lendingRowMapper);
+  public List<Debt> findAll(String email, String month, Integer year) throws DebtResourceNotFoundException {
+    return jdbcTemplate.query(SQL_FIND_BY_EMAIL, new Object[] { email, year, month }, lendingRowMapper);
   }
 
   @Override
@@ -89,7 +89,7 @@ public class DebtRepository implements DebtRepositoryInterface {
   }
 
   @Override
-  public Double getTotalExpense(String email, String month, Integer year) {
+  public Double getTotalDebt(String email, String month, Integer year) {
     return jdbcTemplate.queryForObject(SQL_SUM_BY_EMAIL, new Object[] { email, year, month }, Double.class);
   }
   

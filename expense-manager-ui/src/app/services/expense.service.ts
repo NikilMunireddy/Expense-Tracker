@@ -47,4 +47,17 @@ export class ExpenseService {
     })
   }
 
+  deleteExpense(expenseID){
+    return fetch(`${this.serverUrl}/api/moneymanager/expense/${expenseID}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': `Bearer ${sessionStorage.getItem('id_token')}`,
+        'Access-Control-Request-Headers': '*',
+        'Access-Control-Allow-Headers': '*'
+      },
+      method: 'DELETE'
+    })
+  }
+
 }

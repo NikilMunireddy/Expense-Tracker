@@ -68,10 +68,11 @@ public class LendingController {
     return new ResponseEntity<>(map, HttpStatus.OK);
   }
 
-  @GetMapping()
-  public ResponseEntity<List<Lending>> getAllLending(HttpServletRequest request){
+  @GetMapping("/{month}/{year}")
+  public ResponseEntity<List<Lending>> getAllLending(HttpServletRequest request, 
+  @PathVariable("month") String month, @PathVariable("year") Integer year){
     String email = (String) request.getAttribute("email");
-    List<Lending> allSavings= lendingService.fetchAllLendings(email);
+    List<Lending> allSavings= lendingService.fetchAllLendings(email,month, year);
     return new ResponseEntity<>(allSavings,HttpStatus.OK);
   }
 
@@ -81,6 +82,17 @@ public class LendingController {
     lendingService.removeLending(email, lendingID);
     Map<String, Boolean> map = new HashMap<>();
     map.put("status", true);
+    return new ResponseEntity<>(map, HttpStatus.OK);
+  }
+  
+  @PostMapping("/lend-total")
+  public ResponseEntity<Map<String, Double>> getTotalSaving(HttpServletRequest request, @RequestBody Map<String, Object> lend){
+    String email = (String) request.getAttribute("email");
+    String month = (String) lend.get("month");
+    Integer year = (Integer) lend.get("year");
+    Double totalSum =lendingService.getTotalLending(email, month, year);
+    Map<String, Double> map = new HashMap<>();
+    map.put("total", totalSum);
     return new ResponseEntity<>(map, HttpStatus.OK);
   }
 }
