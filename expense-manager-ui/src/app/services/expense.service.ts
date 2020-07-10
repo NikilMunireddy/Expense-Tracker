@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { AuthService } from './auth.service';
 
 
 @Injectable({
@@ -9,7 +10,7 @@ import { environment } from '../../environments/environment';
 
 export class ExpenseService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   serverUrl = environment.baseUrl;
 
@@ -18,44 +19,24 @@ export class ExpenseService {
 
 
     return fetch(this.serverUrl+'/api/moneymanager/expense/expense-total', {
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Authorization': `Bearer ${sessionStorage.getItem('id_token')}`,
-        'Access-Control-Request-Headers': '*',
-        'Access-Control-Allow-Headers': '*'
-      },
+      headers: this.authService.getHeaders(),
       method: 'POST', // GET, POST, PUT, DELETE
       body: JSON.stringify({ month, year })
     })
   }
 
 
-
-
   getAllExpenses(month, year) {
 
     return fetch(`${this.serverUrl}/api/moneymanager/expense/${month}/${year}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Authorization': `Bearer ${sessionStorage.getItem('id_token')}`,
-        'Access-Control-Request-Headers': '*',
-        'Access-Control-Allow-Headers': '*'
-      },
+      headers: this.authService.getHeaders(),
       method: 'GET',// GET, POST, PUT, DELETE,
     })
   }
 
   deleteExpense(expenseID){
     return fetch(`${this.serverUrl}/api/moneymanager/expense/${expenseID}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Authorization': `Bearer ${sessionStorage.getItem('id_token')}`,
-        'Access-Control-Request-Headers': '*',
-        'Access-Control-Allow-Headers': '*'
-      },
+      headers: this.authService.getHeaders(),
       method: 'DELETE'
     })
   }

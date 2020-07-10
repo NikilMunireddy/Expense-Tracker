@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Saving } from 'src/app/model/Saving';
 import { SavingService } from 'src/app/services/saving.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-saving',
@@ -23,7 +24,7 @@ export class SavingComponent implements OnInit {
 
 
   constructor(private savingService: SavingService,
-    private router: Router) {
+    private router: Router, private authService: AuthService) {
     if (!sessionStorage.getItem('id_token'))
       this.router.navigate(['/login'])
   }
@@ -39,11 +40,6 @@ export class SavingComponent implements OnInit {
     this.getAllSavings(this.dateMonthMap[month], year)
   }
 
-  logout() {
-    sessionStorage.removeItem('id_token')
-    this.router.navigate(['/login'])
-  }
-
   getMonthAndYear() {
     console.log(this.monthyear)
     this.selectedMonth = Number(this.monthyear.split('-')[1])
@@ -55,7 +51,7 @@ export class SavingComponent implements OnInit {
   getTotalSaving(month, year) {
     this.getAllSavings(month, year)
     this.savingService.getTotalSaving(month, year)
-      .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() : this.logout())
+      .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() : this.authService.logout())
       .then(data => {
         this.monthlySaving = data.total
       }).catch(err => console.log(err))
@@ -63,7 +59,7 @@ export class SavingComponent implements OnInit {
 
   getAllSavings(month, year) {
     this.savingService.getAllSavings(month, year)
-      .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() : this.logout())
+      .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() : this.authService.logout())
       .then(data => {
         this.savings = data;
       }).catch(err => console.log(err))

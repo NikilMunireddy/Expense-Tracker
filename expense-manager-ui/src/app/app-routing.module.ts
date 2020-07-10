@@ -5,6 +5,7 @@ import { LoginComponent } from './components/login/login.component';
 import { SavingComponent } from './components/saving/saving.component';
 import { AddnewdataComponent } from './components/addnewdata/addnewdata.component';
 import { LendingComponent } from './components/lending/lending.component';
+import { DebtComponent } from './components/debt/debt.component';
 
 
 const routes: Routes = [
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path: 'expense', component: ExpenseComponent},
   {path: 'saving', component: SavingComponent},
   {path: 'lending', component: LendingComponent},
-  {path: 'addinfo', component: AddnewdataComponent},
+  {path: 'debt', component: DebtComponent},
+  {path: 'addinfo', component: AddnewdataComponent}
 ];
 
 @NgModule({

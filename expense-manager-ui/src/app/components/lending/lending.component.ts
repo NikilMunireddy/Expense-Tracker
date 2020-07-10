@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Lending } from 'src/app/model/Lending';
 import { LendingService } from 'src/app/services/lending.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-lending',
@@ -23,11 +24,10 @@ export class LendingComponent implements OnInit {
   selectedMonth: number
 
   constructor(private lendingService: LendingService,
-    private router: Router) {
+    private router: Router, private authService: AuthService) {
     if (!sessionStorage.getItem('id_token'))
       this.router.navigate(['/login'])
   }
-
 
   ngOnInit(): void {
     var d = new Date();
@@ -41,11 +41,6 @@ export class LendingComponent implements OnInit {
   }
 
 
-  logout() {
-    sessionStorage.removeItem('id_token')
-    this.router.navigate(['/login'])
-  }
-
   getMonthAndYear() {
     console.log(this.monthyear)
     this.selectedMonth = Number(this.monthyear.split('-')[1])
@@ -57,7 +52,7 @@ export class LendingComponent implements OnInit {
   getTotalLending(month, year) {
     this.getAllLendings(month, year)
     this.lendingService.getTotalLending(month, year)
-      .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() : this.logout())
+      .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() : this.authService.logout())
       .then(data => {
         this.monthlyLending = data.total
       }).catch(err => console.log(err))
@@ -65,7 +60,7 @@ export class LendingComponent implements OnInit {
 
   getAllLendings(month, year) {
     this.lendingService.getAllLendings(month, year)
-      .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() : this.logout())
+      .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() : this.authService.logout())
       .then(data => {
         this.lendings = data;
       }).catch(err => console.log(err))
