@@ -32,7 +32,7 @@
 
 
 <div *ngFor="let saving of savings">
-  <div class="card_price">
+  <div long-press (onLongPress)="deleterequest(saving.savingsID)" class="card_price">
     <div class="additional">
       <div class="user-card">
         <div class="level center">

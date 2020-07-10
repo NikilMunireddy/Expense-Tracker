@@ -4,6 +4,7 @@ import { ExpenseComponent } from './components/expense/expense.component';
 import { LoginComponent } from './components/login/login.component';
 import { SavingComponent } from './components/saving/saving.component';
 import { AddnewdataComponent } from './components/addnewdata/addnewdata.component';
+import { LendingComponent } from './components/lending/lending.component';
 
 
 const routes: Routes = [
@@ -11,6 +12,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'expense', component: ExpenseComponent},
   {path: 'saving', component: SavingComponent},
+  {path: 'lending', component: LendingComponent},
   {path: 'addinfo', component: AddnewdataComponent},
 ];
 

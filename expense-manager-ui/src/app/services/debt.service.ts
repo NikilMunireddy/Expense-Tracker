@@ -2,19 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
+
 @Injectable({
   providedIn: 'root'
 })
-export class SavingService {
-
+export class DebtService {
   constructor(private http: HttpClient) { }
 
   serverUrl = environment.baseUrl;
 
+  getTotalDebt(month, year) {
 
-  getTotalSaving(month, year) {
 
-    return fetch(this.serverUrl + '/api/moneymanager/savings/saving-total', {
+    return fetch(this.serverUrl+'/api/moneymanager/debt/debt-total', {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
@@ -28,9 +28,11 @@ export class SavingService {
   }
 
 
-  getAllSavings(month, year) {
 
-    return fetch(`${this.serverUrl}/api/moneymanager/savings/${month}/${year}`, {
+
+  getAllDebts(month, year) {
+
+    return fetch(`${this.serverUrl}/api/moneymanager/debt/${month}/${year}`, {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
@@ -42,9 +44,8 @@ export class SavingService {
     })
   }
 
-  deleteSaving(savingId) {
-
-    return fetch(`${this.serverUrl}/api/moneymanager/savings/${savingId}`, {
+  deleteDebt(expenseID){
+    return fetch(`${this.serverUrl}/api/moneymanager/debt/${expenseID}`, {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
@@ -55,7 +56,4 @@ export class SavingService {
       method: 'DELETE'
     })
   }
-
 }
-
-

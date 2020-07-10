@@ -41,7 +41,6 @@ export class AddnewdataComponent implements OnInit {
     this.month = this.dateMonthMap[d.getUTCMonth() + 1];
     this.year = d.getUTCFullYear();
     this.date = Date.now();
-    console.log(this.month, this.year, this.date)
   }
 
 
@@ -53,24 +52,25 @@ export class AddnewdataComponent implements OnInit {
   submitData() {
     if (this.selectedType != "" && this.selectedType != "Choose Type" && this.amount != undefined && this.title != "" && this.description != "") {
       if (this.selectedType == "expense") {
-        this.addinfoService.addExpense(this.title, this.description, this.date ,this.amount.toPrecision(2), this.month, this.year)
+        this.addinfoService.addExpense(this.title, this.description, this.date ,this.amount, this.month, this.year)
           .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() : this.logout())
           .then(data => console.log(data))
           .catch(err => console.log(err))
-        console.log(this.amount, this.title, this.description,this.selectedType)
       }
       else if (this.selectedType == "saving") {
-        this.addinfoService.addSaving(this.title, this.description, this.date ,this.amount.toPrecision(2), this.month, this.year)
+        this.addinfoService.addSaving(this.title, this.description, this.date ,this.amount, this.month, this.year)
           .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() : this.logout())
           .then(data => console.log(data))
           .catch(err => console.log(err))
-        console.log(this.amount, this.title, this.description,this.selectedType)
       }
       else if (this.selectedType == "debt") {
         console.log(this.amount, this.title, this.description,this.selectedType)
       }
       else {
-        console.log(this.amount, this.title, this.description,this.selectedType)
+        this.addinfoService.addLending(this.title, this.description, this.date ,this.amount, this.month, this.year)
+        .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() : this.logout())
+        .then(data => console.log(data))
+        .catch(err => console.log(err))
       }
     }
   }

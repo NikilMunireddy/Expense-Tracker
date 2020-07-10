@@ -31,6 +31,7 @@ export class ExpenseComponent implements OnInit {
     var month = d.getUTCMonth() + 1; // Since getUTCMonth() returns month from 0-11 not 1-12
     var year = d.getUTCFullYear();
     console.log(month, year)
+    this.selectedYear=year
     this.selectedMonth = this.dateMonthMap[month]
     this.getTotalExpense(this.dateMonthMap[month], year)
     this.getAllExpenses(this.dateMonthMap[month], year)
@@ -70,7 +71,7 @@ export class ExpenseComponent implements OnInit {
     if(confirm("Do you want to delete")){
       this.expenseService.deleteExpense(id)
         .then(res => res.json())
-        .then(data => console.log(data))
+        .then(data => data.status ? this.getAllExpenses(this.selectedMonth, this.selectedYear): console.log(data))
         .catch(err => console.log(err))
     }
   }

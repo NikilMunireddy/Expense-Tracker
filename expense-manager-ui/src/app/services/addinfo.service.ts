@@ -61,4 +61,26 @@ export class AddinfoService {
   }
 
 
+  addLending(title, description, date, amount, month, year){
+
+    return fetch(`${this.serverUrl}/api/moneymanager/lending`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': `Bearer ${sessionStorage.getItem('id_token')}`,
+        'Access-Control-Request-Headers': '*',
+        'Access-Control-Allow-Headers': '*'
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        "title": title,
+        "description": description,
+        "date": date,
+        "amount": amount,
+        "month": month,
+        "year": year
+      })
+    });
+  }
+
 }

@@ -5,16 +5,17 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class SavingService {
+export class LendingService {
 
   constructor(private http: HttpClient) { }
 
   serverUrl = environment.baseUrl;
 
 
-  getTotalSaving(month, year) {
+  getTotalLending(month, year) {
 
-    return fetch(this.serverUrl + '/api/moneymanager/savings/saving-total', {
+
+    return fetch(this.serverUrl+'/api/moneymanager/lending/lend-total', {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
@@ -28,9 +29,11 @@ export class SavingService {
   }
 
 
-  getAllSavings(month, year) {
 
-    return fetch(`${this.serverUrl}/api/moneymanager/savings/${month}/${year}`, {
+
+  getAllLendings(month, year) {
+
+    return fetch(`${this.serverUrl}/api/moneymanager/lending/${month}/${year}`, {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
@@ -42,9 +45,8 @@ export class SavingService {
     })
   }
 
-  deleteSaving(savingId) {
-
-    return fetch(`${this.serverUrl}/api/moneymanager/savings/${savingId}`, {
+  deleteLending(lendingID){
+    return fetch(`${this.serverUrl}/api/moneymanager/lending/${lendingID}`, {
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
@@ -57,5 +59,3 @@ export class SavingService {
   }
 
 }
-
-

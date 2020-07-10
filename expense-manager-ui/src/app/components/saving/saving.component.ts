@@ -34,6 +34,7 @@ export class SavingComponent implements OnInit {
     var year = d.getUTCFullYear();
     console.log(month, year)
     this.selectedMonth = this.dateMonthMap[month]
+    this.selectedYear = year
     this.getTotalSaving(this.dateMonthMap[month], year)
     this.getAllSavings(this.dateMonthMap[month], year)
   }
@@ -67,4 +68,14 @@ export class SavingComponent implements OnInit {
         this.savings = data;
       }).catch(err => console.log(err))
   }
+
+  deleterequest(id){
+    if(confirm("Do you want to delete")){
+      this.savingService.deleteSaving(id)
+        .then(res => res.json())
+        .then(data => data.status ? this.getAllSavings(this.selectedMonth, this.selectedYear) : console.log(data))
+        .catch(err => console.log(err))
+    }
+  }
+
 }
