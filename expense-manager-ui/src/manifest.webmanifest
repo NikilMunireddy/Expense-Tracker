@@ -1,0 +1,16 @@
+{
+  "name": "expense-manager-ui",
+  "short_name": "expense manager",
+  "theme_color": "#f5f5f5",
+  "background_color": "#fafafa",
+  "display": "standalone",
+  "scope": "./",
+  "start_url": "./",
+  "icons": [
+    {
+      "src": "assets/icons/expensemanager.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

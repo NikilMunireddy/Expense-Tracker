@@ -14,6 +14,9 @@ import { LendingComponent } from './components/lending/lending.component';
 import { SavingComponent } from './components/saving/saving.component';
 import { DebtComponent } from './components/debt/debt.component';
 import { LongPress } from './long-press';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+import { ProfileComponent } from './components/profile/profile.component';
 
 
 @NgModule({
@@ -26,13 +29,15 @@ import { LongPress } from './long-press';
     LendingComponent,
     SavingComponent,
     DebtComponent,
-    LongPress
+    LongPress,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.mail.internet.MimeMessage;
 import javax.xml.bind.DatatypeConverter;
 
 import com.moneymanager.Constants;
@@ -13,6 +14,8 @@ import com.moneymanager.service.AuthServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,9 +33,12 @@ public class AuthController {
   @Autowired
   AuthServiceInterface authService;
 
-  // @Route    POST /api/users/login
-  // @Desc     Login user 
-  // @Access   Public
+  @Autowired
+  private JavaMailSender sender;
+
+  // @Route POST /api/users/login
+  // @Desc Login user
+  // @Access Public
 
   @PostMapping("/login")
   public ResponseEntity<Map<String, String>> loginUser(@RequestBody Map<String, Object> userMap) {
@@ -43,23 +49,27 @@ public class AuthController {
     return new ResponseEntity<>(generateJWTToken(user), HttpStatus.OK);
   }
 
+  // @Route POST /api/users/register
+  // @Desc Register new user
+  // @Access Public
 
-  // @Route    POST /api/users/register
-  // @Desc     Register new user 
-  // @Access   Public
-  
   @PostMapping("/register")
   public ResponseEntity<Map<String, String>> registerUser(@RequestBody Map<String, Object> userMap) {
     String firstName = (String) userMap.get("firstName");
     String lastName = (String) userMap.get("lastName");
     String email = (String) userMap.get("email");
-    String avatarUrl =(String) userMap.get("avatarUrl");
+    String avatarUrl = (String) userMap.get("avatarUrl");
     String password = (String) userMap.get("password");
-    String preferedCurrency =(String) userMap.get("preferedCurrency");
+    String preferedCurrency = (String) userMap.get("preferedCurrency");
     User user = authService.registerUser(firstName, lastName, email, avatarUrl, password, preferedCurrency);
+    try {
+      sendEmail("Registered successfully", "Expense manager register", user.getEmail());
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
     return new ResponseEntity<>(generateJWTToken(user), HttpStatus.OK);
   }
-
 
   private Map<String, String> generateJWTToken(User user) {
     long timestamp = System.currentTimeMillis();
@@ -67,13 +77,20 @@ public class AuthController {
     String token = Jwts.builder()
         .signWith(SignatureAlgorithm.HS512, DatatypeConverter.parseBase64Binary(Constants.API_SECRET_KEY))
         .setIssuedAt(new Date(timestamp)).setExpiration(new Date(timestamp + Constants.TOKEN_VALIDITY))
-        .claim("email", user.getEmail()).claim("firstName", user.getFirstName())
-        .claim("lastName", user.getLastName()).claim("avatarUrl", user.getAvatarUrl())
-        .claim("preferedCurrency", user.getPreferedCurrency())
-        .compact();
+        .claim("email", user.getEmail()).claim("firstName", user.getFirstName()).claim("lastName", user.getLastName())
+        .claim("avatarUrl", user.getAvatarUrl()).claim("preferedCurrency", user.getPreferedCurrency()).compact();
     Map<String, String> map = new HashMap<>();
     map.put("token", token);
     return map;
   }
-  
+
+  private void sendEmail(String messaage, String subject, String to) throws Exception {
+    MimeMessage message = sender.createMimeMessage();
+    MimeMessageHelper helper = new MimeMessageHelper(message, true);
+    helper.setTo(to);
+    helper.setText(messaage);
+    helper.setSubject(subject);
+    sender.send(message);
+  }
+
 }

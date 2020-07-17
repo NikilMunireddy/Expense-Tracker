@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Expense } from '../../model/Expense'
 import { Router } from '@angular/router';
 import { ExpenseService } from 'src/app/services/expense.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-expense',
@@ -21,7 +22,7 @@ export class ExpenseComponent implements OnInit {
   selectedMonth: number
 
   constructor(private expenseService: ExpenseService,
-    private router: Router) {
+    private router: Router, private authService: AuthService) {
     if (!sessionStorage.getItem('id_token'))
       this.router.navigate(['/login'])
   }
@@ -37,11 +38,6 @@ export class ExpenseComponent implements OnInit {
     this.getAllExpenses(this.dateMonthMap[month], year)
   }
 
-  logout() {
-    sessionStorage.removeItem('id_token')
-    this.router.navigate(['/login'])
-  }
-
   getMonthAndYear() {
     console.log(this.monthyear)
     this.selectedMonth = Number(this.monthyear.split('-')[1])
@@ -53,7 +49,7 @@ export class ExpenseComponent implements OnInit {
   getTotalExpense(month, year) {
     this.getAllExpenses(month, year)
     this.expenseService.getTotalExpense(month, year)
-      .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() : this.logout())
+      .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() : this.authService.logout())
       .then(data => {
         this.monthlyExpense = data.total
       }).catch(err => console.log(err))
@@ -61,7 +57,7 @@ export class ExpenseComponent implements OnInit {
 
   getAllExpenses(month, year) {
     this.expenseService.getAllExpenses(month, year)
-      .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() : this.logout())
+      .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() : this.authService.logout())
       .then(data => {
         this.expenses = data;
       }).catch(err => console.log(err))

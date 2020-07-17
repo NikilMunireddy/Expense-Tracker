@@ -15,7 +15,8 @@ const routes: Routes = [
   {path: 'saving', component: SavingComponent},
   {path: 'lending', component: LendingComponent},
   {path: 'debt', component: DebtComponent},
-  {path: 'addinfo', component: AddnewdataComponent}
+  {path: 'addinfo', component: AddnewdataComponent},
+  {path: '**', component: AddnewdataComponent}
 ];
 
 @NgModule({
