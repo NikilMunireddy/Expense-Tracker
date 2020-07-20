@@ -12,6 +12,7 @@ import com.moneymanager.Constants;
 import com.moneymanager.model.OTP;
 import com.moneymanager.model.User;
 import com.moneymanager.service.AuthServiceInterface;
+import com.moneymanager.service.EmailServiceInterface;
 import com.moneymanager.service.OTPServiceInterface;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +40,13 @@ public class AuthController {
   AuthServiceInterface authService;
 
   @Autowired
+  EmailServiceInterface emailService;
+
+  @Autowired
   OTPServiceInterface otpService;
 
   @Autowired
-  private JavaMailSender sender;
+  JavaMailSender sender;
 
   // @Route POST /api/users/login
   // @Desc Login user
@@ -89,8 +93,10 @@ public class AuthController {
       OTP otp = otpService.getOTP(user.getEmail());
       String host = request.getHeader("host");
       String userOTPlink = "http://" + host + "/api/users/otpvalidation/" + otp.getOtp() + "/" + otp.getEmail();
-      System.out.println(userOTPlink);
-      // sendEmail(userOTPlink, "Registered successfully", user.getEmail());
+      //sendEmail(userOTPlink, "Registered successfully", user.getEmail());
+      String htmlMessage ="<h1>Click the below lick to successfully register your account </h1>" + "<a href=" + userOTPlink
+      + ">" + userOTPlink + "</a>";
+      emailService.sendMail(user.getEmail(), "Registered successfully", htmlMessage);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -109,7 +115,7 @@ public class AuthController {
       if ((Long.parseLong(userOtp.getExpiryTime().toString()) > (Long) System.currentTimeMillis() / 1000)
           && userOtp.getOtp().equals(otp)) {
         otpService.updateUserValidity(email, "Y");
-        validationResponse = "Email Vaidation success";
+        validationResponse = "Email Vaidation success now login with your email ID and password";
       } else {
         otpService.updateUserValidity(email, "N");
         validationResponse = "User Invalid";
@@ -132,17 +138,6 @@ public class AuthController {
     Map<String, String> map = new HashMap<>();
     map.put("token", token);
     return map;
-  }
-
-  private void sendEmail(String messaage, String subject, String to) throws Exception {
-    MimeMessage message = sender.createMimeMessage();
-    MimeMessageHelper helper = new MimeMessageHelper(message, true);
-    helper.setTo(to);
-    helper.setText(messaage);
-    helper.setSubject(subject);
-    message.setContent("<h1>Click the below lick to successfully register your account </h1>" + "<a href=" + messaage
-        + ">" + messaage + "</a>", "text/html");
-    sender.send(message);
   }
 
 }

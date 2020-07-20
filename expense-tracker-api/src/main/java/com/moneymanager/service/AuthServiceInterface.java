@@ -9,4 +9,5 @@ public interface AuthServiceInterface {
 
   User registerUser( String firstName, String lastName, String email, String avatarUrl,String password, String preferedCurrency) throws UserAuthException;
 
+  User findById(String email);
 }

@@ -17,6 +17,7 @@ import { LongPress } from './long-press';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ProfileComponent } from './components/profile/profile.component';
+import { RegisterComponent } from './components/register/register.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { ProfileComponent } from './components/profile/profile.component';
     SavingComponent,
     DebtComponent,
     LongPress,
-    ProfileComponent
+    ProfileComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

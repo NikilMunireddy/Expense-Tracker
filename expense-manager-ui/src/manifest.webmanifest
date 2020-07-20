@@ -1,6 +1,6 @@
 {
-  "name": "expense-manager-ui",
-  "short_name": "expense manager",
+  "name": "Expense Manager",
+  "short_name": "Expense manager",
   "theme_color": "#f5f5f5",
   "background_color": "#fafafa",
   "display": "standalone",

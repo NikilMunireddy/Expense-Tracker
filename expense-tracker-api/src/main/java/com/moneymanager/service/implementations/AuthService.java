@@ -38,5 +38,10 @@ public class AuthService implements AuthServiceInterface {
         String userEmail = userRepository.create(firstName, lastName, email, avatarUrl,password, preferedCurrency);
     return userRepository.findById(userEmail);
   }
+
+  @Override
+  public User findById(String email) {
+    return userRepository.findById(email);
+  }
   
 }

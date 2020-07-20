@@ -28,6 +28,25 @@ export class AuthService {
     })
   }
 
+  registerUser(email, password, firstname, lastname, avatar, preferedcurrency){
+    let data={
+      "firstName": firstname,
+      "lastName": lastname,
+      "email": email,
+      "avatarUrl": avatar,
+      "password": password,
+      "preferedCurrency": preferedcurrency
+    }
+    return fetch(`${this.serverUrl}/api/users/register`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(data)
+    })
+  }
+
   storeUserData(token) {
     sessionStorage.setItem('id_token', token);
     this.authToken = token;
