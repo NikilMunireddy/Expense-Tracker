@@ -18,6 +18,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ProfileComponent } from './components/profile/profile.component';
 import { RegisterComponent } from './components/register/register.component';
+import { AlertComponent } from './components/alert/alert.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { RegisterComponent } from './components/register/register.component';
     DebtComponent,
     LongPress,
     ProfileComponent,
-    RegisterComponent
+    RegisterComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,

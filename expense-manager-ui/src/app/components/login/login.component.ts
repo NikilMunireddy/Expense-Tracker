@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginComponent implements OnInit {
   email: string;
 
   constructor(private authService: AuthService,
-              private router: Router
+              private router: Router, private alertService: AlertService
     ) {
       if(sessionStorage.getItem('id_token'))
           this.router.navigate(['/expense'])
@@ -30,6 +31,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/expense'])
       }
       else{
+        this.alertService.warning("Invalid user name and password");
         this.router.navigate(['/login'])
       }
     }).catch(err=> console.log(err))

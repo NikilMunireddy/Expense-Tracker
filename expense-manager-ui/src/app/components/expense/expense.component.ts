@@ -3,6 +3,7 @@ import { Expense } from '../../model/Expense'
 import { Router } from '@angular/router';
 import { ExpenseService } from 'src/app/services/expense.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-expense',
@@ -22,7 +23,7 @@ export class ExpenseComponent implements OnInit {
   selectedMonth: number
 
   constructor(private expenseService: ExpenseService,
-    private router: Router, private authService: AuthService) {
+    private router: Router, private authService: AuthService, private alertService: AlertService) {
     if (!sessionStorage.getItem('id_token'))
       this.router.navigate(['/login'])
   }
@@ -32,7 +33,7 @@ export class ExpenseComponent implements OnInit {
     var month = d.getUTCMonth() + 1; // Since getUTCMonth() returns month from 0-11 not 1-12
     var year = d.getUTCFullYear();
     console.log(month, year)
-    this.selectedYear=year
+    this.selectedYear = year
     this.selectedMonth = this.dateMonthMap[month]
     this.getTotalExpense(this.dateMonthMap[month], year)
     this.getAllExpenses(this.dateMonthMap[month], year)
@@ -63,13 +64,21 @@ export class ExpenseComponent implements OnInit {
       }).catch(err => console.log(err))
   }
 
-  deleterequest(id){
-    if(confirm("Do you want to delete")){
+  deleterequest(id) {
+    if (confirm("Do you want to delete")) {
       this.expenseService.deleteExpense(id)
         .then(res => res.json())
-        .then(data => data.status ? this.getAllExpenses(this.selectedMonth, this.selectedYear): console.log(data))
+        .then(data => {
+          if (data.status) {
+            this.getAllExpenses(this.selectedMonth, this.selectedYear);
+            this.alertService.info('Deleted item successfully')
+          }
+          else {
+            this.alertService.warning("Failed to delete item")
+          }
+        })
         .catch(err => console.log(err))
     }
   }
-  
+
 }

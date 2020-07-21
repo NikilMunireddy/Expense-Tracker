@@ -3,6 +3,7 @@ import { Debt } from 'src/app/model/Debt';
 import { DebtService } from 'src/app/services/debt.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-debt',
@@ -23,7 +24,7 @@ export class DebtComponent implements OnInit {
   selectedMonth: number
 
   constructor(private debtService: DebtService,
-    private router: Router, private authService: AuthService) {
+    private router: Router, private authService: AuthService, private alertService: AlertService) {
     if (!sessionStorage.getItem('id_token'))
       this.router.navigate(['/login'])
   }
@@ -69,7 +70,15 @@ export class DebtComponent implements OnInit {
     if(confirm("Do you want to delete")){
       this.debtService.deleteDebt(id)
         .then(res => res.json())
-        .then(data => data.status ? this.getAllDebts(this.selectedMonth, this.selectedYear): console.log(data))
+        .then(data => {
+          if(data.status){
+            this.getAllDebts(this.selectedMonth, this.selectedYear);
+            this.alertService.info('Deleted item successfully')
+          }
+          else{
+            this.alertService.warning("Failed to delete item")
+          }
+        })
         .catch(err => console.log(err))
     }
   }

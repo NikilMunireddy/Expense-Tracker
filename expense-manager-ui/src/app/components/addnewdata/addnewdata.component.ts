@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AddinfoService } from '../../services/addinfo.service'
 import { AuthService } from 'src/app/services/auth.service';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-addnewdata',
@@ -11,7 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class AddnewdataComponent implements OnInit {
 
   constructor(private addinfoService: AddinfoService,
-    private router: Router, private authService: AuthService) { 
+    private router: Router, private authService: AuthService, private alertService: AlertService) { 
       if (!sessionStorage.getItem('id_token'))
         this.router.navigate(['/login'])
     }
@@ -54,25 +55,57 @@ export class AddnewdataComponent implements OnInit {
     if (this.selectedType != "" && this.selectedType != "Choose Type" && this.amount != undefined && this.title != "" && this.description != "") {
       if (this.selectedType == "expense") {
         this.addinfoService.addExpense(this.title, this.description, this.date ,this.amount, this.month, this.year)
-          .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() : this.authService.logout())
-          .then(data => console.log(data))
+          .then(res => {
+            if(res.status !== 403 && res.status !== 401 && res.status !== 408 && res.status!==400){
+              res.json();
+              this.alertService.success("Expense added");
+            } else {
+              this.alertService.warning("Check your internet connection");
+              this.authService.logout();
+            }
+          })
+          .then(data => this.alertService.success("Expense added"))
           .catch(err => console.log(err))
       }
       else if (this.selectedType == "saving") {
         this.addinfoService.addSaving(this.title, this.description, this.date ,this.amount, this.month, this.year)
-          .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() :  this.authService.logout())
+          .then(res => {
+            if(res.status !== 403 && res.status !== 401 && res.status !== 408 && res.status!==400){
+              res.json();
+              this.alertService.success("Saving added");
+            } else {
+              this.alertService.warning("Check your internet connection");
+              this.authService.logout();
+            }
+          })
           .then(data => console.log(data))
           .catch(err => console.log(err))
       }
       else if (this.selectedType == "debt") {
         this.addinfoService.addDebt(this.title, this.description, this.date ,this.amount, this.month, this.year)
-        .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() :  this.authService.logout())
+        .then(res => {
+          if(res.status !== 403 && res.status !== 401 && res.status !== 408 && res.status!==400){
+            res.json();
+            this.alertService.success("Debt added");
+          } else {
+            this.alertService.warning("Check your internet connection");
+            this.authService.logout();
+          }
+        })
         .then(data => console.log(data))
         .catch(err => console.log(err))
       }
       else {
         this.addinfoService.addLending(this.title, this.description, this.date ,this.amount, this.month, this.year)
-        .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() :  this.authService.logout())
+        .then(res => {
+          if(res.status !== 403 && res.status !== 401 && res.status !== 408 && res.status!==400){
+            res.json();
+            this.alertService.success("Lending added");
+          } else {
+            this.alertService.warning("Check your internet connection");
+            this.authService.logout();
+          }
+        })
         .then(data => console.log(data))
         .catch(err => console.log(err))
       }

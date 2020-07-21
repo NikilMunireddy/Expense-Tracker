@@ -3,6 +3,7 @@ import { Lending } from 'src/app/model/Lending';
 import { LendingService } from 'src/app/services/lending.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-lending',
@@ -12,7 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class LendingComponent implements OnInit {
 
 
-  lendings : Lending [];
+  lendings: Lending[];
 
   monthlyLending: number = 0;
   dateMonthMap = {
@@ -24,7 +25,7 @@ export class LendingComponent implements OnInit {
   selectedMonth: number
 
   constructor(private lendingService: LendingService,
-    private router: Router, private authService: AuthService) {
+    private router: Router, private authService: AuthService, private alertService: AlertService) {
     if (!sessionStorage.getItem('id_token'))
       this.router.navigate(['/login'])
   }
@@ -66,11 +67,19 @@ export class LendingComponent implements OnInit {
       }).catch(err => console.log(err))
   }
 
-  deleterequest(id){
-    if(confirm("Do you want to delete")){
+  deleterequest(id) {
+    if (confirm("Do you want to delete")) {
       this.lendingService.deleteLending(id)
         .then(res => res.json())
-        .then(data => data.status ? this.getAllLendings(this.selectedMonth, this.selectedYear): console.log(data))
+        .then(data => {
+          if (data.status) {
+            this.getAllLendings(this.selectedMonth, this.selectedYear);
+            this.alertService.info('Deleted item successfully')
+          }
+          else {
+            this.alertService.warning("Failed to delete item")
+          }
+        })
         .catch(err => console.log(err))
     }
   }

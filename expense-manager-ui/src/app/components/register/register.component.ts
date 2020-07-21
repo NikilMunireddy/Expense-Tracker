@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +21,7 @@ export class RegisterComponent implements OnInit {
   passwordlengthIsValid: boolean = true;
 
   constructor(private authService: AuthService,
-    private router: Router
+    private router: Router, private alertService: AlertService
   ) {
     if (sessionStorage.getItem('id_token'))
       this.router.navigate(['/expense'])
@@ -41,7 +42,7 @@ export class RegisterComponent implements OnInit {
         this.isformSubmitted = true;
         this.authService.registerUser(this.email, this.password, this.firstname, this.lastname, this.avatar, this.preferredCurrency)
           .then(res => (res.status !== 403 && res.status !== 401 && res.status !== 408) ? res.json() : console.log("Registration failed"))
-          .then(data => console.log(data))
+          .then(data => data.token ? this.alertService.info("Complete registration by clicking hte link sent to your mail"): this.alertService.warning("Could not create account"))
           .catch(err => console.log(err))
       }
     }

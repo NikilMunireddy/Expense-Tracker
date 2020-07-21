@@ -3,6 +3,7 @@ import { Saving } from 'src/app/model/Saving';
 import { SavingService } from 'src/app/services/saving.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { AlertService } from 'src/app/services/alert.service';
 
 @Component({
   selector: 'app-saving',
@@ -11,7 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class SavingComponent implements OnInit {
 
-  savings : Saving [];
+  savings: Saving[];
 
   monthlySaving: number = 0;
   dateMonthMap = {
@@ -24,7 +25,7 @@ export class SavingComponent implements OnInit {
 
 
   constructor(private savingService: SavingService,
-    private router: Router, private authService: AuthService) {
+    private router: Router, private authService: AuthService, private alertService: AlertService) {
     if (!sessionStorage.getItem('id_token'))
       this.router.navigate(['/login'])
   }
@@ -65,12 +66,19 @@ export class SavingComponent implements OnInit {
       }).catch(err => console.log(err))
   }
 
-  deleterequest(id){
-    if(confirm("Do you want to delete")){
+  deleterequest(id) {
+    if (confirm("Do you want to delete")) {
       this.savingService.deleteSaving(id)
         .then(res => res.json())
-        .then(data => data.status ? this.getAllSavings(this.selectedMonth, this.selectedYear) : console.log(data))
-        .catch(err => console.log(err))
+        .then(data => {
+          if (data.status) {
+            this.getAllSavings(this.selectedMonth, this.selectedYear);
+            this.alertService.info('Deleted item successfully')
+          }
+          else {
+            this.alertService.warning("Failed to delete item")
+          }
+        }).catch(err => console.log(err))
     }
   }
 
