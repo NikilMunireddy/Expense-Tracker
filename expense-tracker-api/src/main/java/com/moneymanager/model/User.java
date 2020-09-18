@@ -8,15 +8,17 @@ public class User {
   private String email;
   private String password;
   private String preferedCurrency;
+  private String googleauthkey;
 
 
-  public User(String email, String firstName, String lastName, String password,String avatarUrl ,String preferedCurrency){
+  public User(String email, String firstName, String lastName, String password,String avatarUrl ,String preferedCurrency, String googleauthkey){
     this.email= email;
     this.firstName= firstName;
     this.lastName = lastName;
     this.avatarUrl = avatarUrl;
     this.preferedCurrency = preferedCurrency;
     this.password = password;
+    this.googleauthkey = googleauthkey;
   }
 
   public String getEmail() {
@@ -65,5 +67,13 @@ public class User {
 
   public void setPreferedCurrency(String preferedCurrency) {
     this.preferedCurrency = preferedCurrency;
+  }
+
+  public String getGoogleauthkey() {
+    return googleauthkey;
+  }
+
+  public void setGoogleauthkey(String googleauthkey) {
+    this.googleauthkey = googleauthkey;
   }
 }

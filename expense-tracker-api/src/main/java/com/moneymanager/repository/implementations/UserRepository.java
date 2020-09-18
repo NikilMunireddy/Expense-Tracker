@@ -22,9 +22,9 @@ public class UserRepository implements UserRepositoryInterface {
   private static final String SQL_CREATE = "INSERT INTO exp_tracker_users( first_name, last_name, avatar_url, email, password, prefered_currency ) VALUES(?, ?, ?, ?, ?, ?)";
   private static final String SQL_SUM_BY_EMAIL = "select sum(amount) from exp_tracker_users WHERE EMAIL = ? and year=? and month =?";
   private static final String SQL_COUNT_BY_EMAIL = "SELECT COUNT(*) FROM exp_tracker_users WHERE EMAIL = ?";
-  private static final String SQL_FIND_BY_ID = "SELECT first_name, last_name, avatar_url, email, password, prefered_currency " +
+  private static final String SQL_FIND_BY_ID = "SELECT first_name, last_name, avatar_url, email, password, prefered_currency, googleauthkey " +
   "FROM exp_tracker_users WHERE email = ?";
-  private static final String SQL_FIND_BY_EMAIL = "SELECT first_name, last_name, avatar_url, email, password, prefered_currency " +
+  private static final String SQL_FIND_BY_EMAIL = "SELECT first_name, last_name, avatar_url, email, password, prefered_currency, googleauthkey " +
   "FROM exp_tracker_users WHERE EMAIL = ?";
 
   @Autowired
@@ -37,7 +37,8 @@ public class UserRepository implements UserRepositoryInterface {
             rs.getString("last_name"),
             rs.getString("password"),
             rs.getString("avatar_url"),
-            rs.getString("prefered_currency"));
+            rs.getString("prefered_currency"),
+            rs.getString("googleauthkey"));
 });
 
   @Override

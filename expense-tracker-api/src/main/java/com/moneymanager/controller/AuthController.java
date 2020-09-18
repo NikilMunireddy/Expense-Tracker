@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
 
@@ -13,13 +12,13 @@ import com.moneymanager.model.OTP;
 import com.moneymanager.model.User;
 import com.moneymanager.service.AuthServiceInterface;
 import com.moneymanager.service.EmailServiceInterface;
+import com.moneymanager.service.GoogleOtpServiceInterface;
 import com.moneymanager.service.OTPServiceInterface;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,6 +47,9 @@ public class AuthController {
   @Autowired
   JavaMailSender sender;
 
+  @Autowired
+  GoogleOtpServiceInterface googleOtpService;
+
   // @Route POST /api/users/login
   // @Desc Login user
   // @Access Public
@@ -73,6 +75,33 @@ public class AuthController {
       return new ResponseEntity<>(invlaidUser, HttpStatus.OK);
     }
   }
+
+
+  @PostMapping("/google-auth-login")
+  public ResponseEntity<Map<String, String>> qrauth(HttpServletRequest request,
+      @RequestBody Map<String, Object> userOtp) {
+
+    String status = "";
+    String code = (String) userOtp.get("authcode");
+    String email = (String) userOtp.get("email");
+    Map<String, String> response = new HashMap<>();
+
+    User user = authService.findById(email);
+
+    if (code.equals(googleOtpService.getTOTPCode(user.getGoogleauthkey()))) {
+      System.out.println("Logged in successfully");
+      status = "Logged in successfully";
+      return new ResponseEntity<>(generateJWTToken(user), HttpStatus.OK);
+    } else {
+      System.out.println("Invalid 2FA Code");
+      status = "Invalid 2FA Code";
+      return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+    //response.put("status", status);
+    //return new ResponseEntity<>(response, HttpStatus.OK);
+  }
+
+  
 
   // @Route POST /api/users/register
   // @Desc Register new user

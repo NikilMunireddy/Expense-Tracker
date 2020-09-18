@@ -28,10 +28,6 @@ public class AuthService implements AuthServiceInterface {
   @Override
   public User registerUser(String firstName, String lastName, String email, String avatarUrl, String password,
       String preferedCurrency) throws UserAuthException {
-        Pattern pattern = Pattern.compile("^(.+)@(.+)$");
-        if(email != null) email = email.toLowerCase();
-        if(!pattern.matcher(email).matches())
-          throw new UserAuthException("Invalid email format");
         Integer count = userRepository.getCounterByEmail(email);
         if(count > 0)
           throw new UserAuthException("Email already in use");
