@@ -28,6 +28,19 @@ export class AuthService {
     })
   }
 
+  googleAuthLogin(email, password) {
+
+    let data = { email, password }
+    return fetch(`${this.serverUrl}/api/users/google-auth-login`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
   registerUser(email, password, firstname, lastname, avatar, preferedcurrency){
     let data={
       "firstName": firstname,

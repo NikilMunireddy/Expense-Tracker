@@ -82,8 +82,8 @@ public class AuthController {
       @RequestBody Map<String, Object> userOtp) {
 
     String status = "";
-    String code = (String) userOtp.get("authcode");
-    String email = (String) userOtp.get("email");
+    String code = String.valueOf(userOtp.get("password"));
+    String email = String.valueOf(userOtp.get("email"));
     Map<String, String> response = new HashMap<>();
 
     User user = authService.findById(email);
@@ -97,8 +97,7 @@ public class AuthController {
       status = "Invalid 2FA Code";
       return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
-    //response.put("status", status);
-    //return new ResponseEntity<>(response, HttpStatus.OK);
+
   }
 
   
